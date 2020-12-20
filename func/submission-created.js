@@ -26,25 +26,25 @@ exports.handler = async function (event, context) {
 
     if (payload.banReason !== undefined &&
         payload.appealText !== undefined &&
-        payload.futureActions !== undefined && 
+        payload.futureActions !== undefined &&
         payload.token !== undefined) {
-        
+
         const userInfo = decodeJwt(payload.token);
         const embedFields = [
             {
-                name: "Submitter",
+                name: "Solicitante",
                 value: `<@${userInfo.id}> (${userInfo.username}#${userInfo.discriminator})`
             },
             {
-                name: "Why were you banned?",
+                name: "¿Por qué fuiste baneado?",
                 value: payload.banReason.slice(0, MAX_EMBED_FIELD_CHARS)
             },
             {
-                name: "Why do you feel you should be unbanned?",
+                name: "¿Por qué crees que deberías ser desbaneado?",
                 value: payload.appealText.slice(0, MAX_EMBED_FIELD_CHARS)
             },
             {
-                name: "What will you do to avoid being banned in the future?",
+                name: "¿Qué vas a hacer para evitar ser baneado en el futuro?",
                 value: payload.futureActions.slice(0, MAX_EMBED_FIELD_CHARS)
             }
         ];
@@ -56,8 +56,8 @@ exports.handler = async function (event, context) {
             };
 
             embedFields.push({
-                name: "Actions",
-                value: `[Approve appeal and unban user](${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))})`
+                name: "Acciones",
+                value: `[Aprobar apelación y desbanear al usuario](${unbanUrl.toString()}?token=${encodeURIComponent(createJwt(unbanInfo))})`
             });
         }
 
@@ -69,7 +69,7 @@ exports.handler = async function (event, context) {
             },
             body: JSON.stringify({
                 embed: {
-                    title: "New appeal submitted!",
+                    title: "Nueva solicitud de apelación recibida.",
                     timestamp: new Date().toISOString(),
                     fields: embedFields
                 }
